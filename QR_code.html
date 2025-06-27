@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, grey, #00c6ff);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            margin: 10px 0;
+            outline: none;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .qr-container {
+            margin-top: 15px;
+            display: none;
+        }
+        #qrcode {
+            padding: 10px;
+            background: #fff;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .download-btn {
+            display: block;
+            text-decoration: none;
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .download-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <input type="text" id="text" placeholder="Enter text or URL">
+        <button class="btn" onclick="generateQR()">Generate QR Code</button>
+
+        <div class="qr-container" id="qr-container">
+            <div id="qrcode"></div>
+            <a id="download-link" class="download-btn" download="qrcode.png">Download QR Code</a>
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            let text = document.getElementById("text").value;
+            let qrDiv = document.getElementById("qrcode");
+            let qrContainer = document.getElementById("qr-container");
+            let downloadLink = document.getElementById("download-link");
+
+            if (text.trim() === "") {
+                alert("Please enter text or a URL!");
+                return;
+            }
+
+            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+
+            qrDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" id="qr-img">`;
+            downloadLink.href = qrUrl;
+            qrContainer.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
